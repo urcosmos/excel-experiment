@@ -91,6 +91,12 @@ module.exports = (env, argv) => {
       // open: true,
       hot: true,
       watchFiles: './',
+      client: {
+        overlay: {
+          errors: true,
+          warnings: false,
+        },
+      },
     },
   };
 };
