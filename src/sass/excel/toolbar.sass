@@ -1,0 +1,17 @@
+@import '../vars'
+@import '../mixins'
+
+.excel__toolbar
+  height: var(--toolbar-height)
+  position: absolute
+  top: var(--header-height)
+  right: 0
+  left: 0
+  border-top: 1px solid var(--border-color)
+  border-bottom: 1px solid var(--border-color)
+  padding: 4px 8px
+  display: flex
+  align-items: center
+
+  & .button
+    @include button-rect()
