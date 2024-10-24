@@ -49,6 +49,7 @@ module.exports = (env, argv) => {
   };
 
   return {
+    cache: false,
     target: 'web',
     context: path.resolve(__dirname, 'src'),
     entry: {
@@ -63,7 +64,7 @@ module.exports = (env, argv) => {
       extensions: ['.js'],
       alias: {
         '@': path.resolve(__dirname, 'src'),
-        '@core': path.resolve(__dirname, 'src', 'core'),
+        '@core': path.resolve(__dirname, 'src', 'js', 'core'),
       },
     },
     plugins: plugins(),
