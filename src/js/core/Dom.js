@@ -15,6 +15,18 @@ class DOM {
     return this.elem.outerHTML.trim();
   }
 
+  css(styles = {}) {
+    if (Object.keys(styles).length > 0) {
+      for (const style in styles) {
+        if (Object.hasOwn(this.elem.style, style)) {
+          this.elem.style[style] = styles[style];
+        }
+      }
+
+      return this;
+    }
+  }
+
   clear() {
     this.html('');
     return this;
@@ -40,6 +52,22 @@ class DOM {
     }
 
     return this;
+  }
+
+  get data() {
+    return this.elem.dataset;
+  }
+
+  closest(selector) {
+    return J(this.elem.closest(selector));
+  }
+
+  getCoords() {
+    return this.elem.getBoundingClientRect();
+  }
+
+  findAll(selector) {
+    return this.elem.querySelectorAll(selector);
   }
 }
 

@@ -4,9 +4,16 @@ const CODES = {
 };
 
 function createRow(rowNumber, content) {
+  const resize = rowNumber
+    ? `<div class="row-resize" data-resize="row"></div>`
+    : '';
+
   return `
-    <div class="row table__row">
-      <div class="row-address">${rowNumber}</div>
+    <div class="row table__row" data-type="resizable">
+      <div class="row-address">
+        ${rowNumber}
+        ${resize}
+      </div>
       <div class="row-data">${content}</div>
     </div>
   `;
@@ -16,15 +23,19 @@ function toChar(_, index) {
   return String.fromCharCode(CODES.A + index);
 }
 
-function toColumn(col) {
+function toColumn(col, index) {
   return `
-    <div class="column-address">${col}</div>
+    <div class="column-address" data-type="resizable" data-col="${index}">
+      ${col}
+      <div class="col-resize" data-resize="col"></div>
+    </div>
   `;
 }
 
-function toCell(content) {
+function toCell(_, col) {
   return `
-    <div class="cell" contenteditable spellcheck="false">${content}</div>
+    <div class="cell" contenteditable spellcheck="false" data-col="${col}">
+    </div>
   `;
 }
 
