@@ -17,6 +17,7 @@
     "operator-linebreak": "off",
     "require-jsdoc": "off",
     "object-curly-spacing": "off",
-    "new-cap": "off"
+    "new-cap": "off",
+    "space-before-function-paren": "off"
   }
 }

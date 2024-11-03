@@ -27,6 +27,29 @@ class DOM {
     }
   }
 
+  text(text) {
+    if (typeof text === 'string') {
+      this.elem.textContent = text;
+      return this;
+    }
+
+    if (this.elem.tagName.toLowerCase() === 'input') {
+      return this.elem.value.trim();
+    }
+
+    return this.elem.textContent.trim();
+  }
+
+  addClass(className) {
+    this.elem.classList.add(className);
+    return this;
+  }
+
+  removeClass(className) {
+    this.elem.classList.remove(className);
+    return this;
+  }
+
   clear() {
     this.html('');
     return this;
@@ -58,6 +81,18 @@ class DOM {
     return this.elem.dataset;
   }
 
+  id(parse) {
+    if (parse) {
+      const parsed = this.id().split(':');
+
+      return {
+        row: +parsed[0],
+        col: +parsed[1],
+      };
+    }
+    return this.data.id;
+  }
+
   closest(selector) {
     return J(this.elem.closest(selector));
   }
@@ -68,6 +103,15 @@ class DOM {
 
   findAll(selector) {
     return this.elem.querySelectorAll(selector);
+  }
+
+  find(selector) {
+    return J(this.elem.querySelector(selector));
+  }
+
+  focus() {
+    this.elem.focus();
+    return this;
   }
 }
 

@@ -32,11 +32,19 @@ function toColumn(col, index) {
   `;
 }
 
-function toCell(_, col) {
-  return `
-    <div class="cell" contenteditable spellcheck="false" data-col="${col}">
-    </div>
-  `;
+function toCell(row) {
+  return function (_, col) {
+    return `
+      <div
+        class="cell"
+        contenteditable
+        spellcheck="false"
+        data-col="${col}"
+        data-id="${row}:${col}"
+        data-type="cell">
+      </div>
+   `;
+  };
 }
 
 export function createTable(rowsCount = 15) {
@@ -47,9 +55,9 @@ export function createTable(rowsCount = 15) {
 
   rows.push(createRow('', cols));
 
-  for (let i = 0; i < rowsCount; i++) {
-    const cells = new Array(colsCount).fill('').map(toCell).join('');
-    rows.push(createRow(i + 1, cells));
+  for (let row = 0; row < rowsCount; row++) {
+    const cells = new Array(colsCount).fill('').map(toCell(row)).join('');
+    rows.push(createRow(row + 1, cells));
   }
 
   return rows.join('');
