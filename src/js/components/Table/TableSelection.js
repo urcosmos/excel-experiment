@@ -22,12 +22,22 @@ export default class TableSelection {
     this.group = [];
   }
 
+  get selectedIds() {
+    return this.group.map((elem) => elem.id());
+  }
+
   selectGroup(group = []) {
     this.clear();
 
     this.group = group;
     this.group.forEach((elem) => {
       elem.addClass(TableSelection.className);
+    });
+  }
+
+  applyStyle(style) {
+    this.group.forEach((elem) => {
+      elem.css(style);
     });
   }
 }
