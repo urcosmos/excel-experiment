@@ -1,10 +1,13 @@
-import { J } from '../../core/DOM';
+import { J } from '../../core/Dom';
 import Emitter from '../../core/Emitter';
+import { StoreSubscriber } from '../../core/StoreSubscriber';
 
 export class Excel {
   constructor(selector, options) {
     this.element = J(selector);
     this.components = options.components || [];
+    this.store = options.store;
+    this.subscriber = new StoreSubscriber(this.store);
     this.emitter = new Emitter();
   }
 
@@ -13,6 +16,7 @@ export class Excel {
 
     const componentOptions = {
       emitter: this.emitter,
+      store: this.store,
     };
 
     this.components = this.components.map((Component) => {
@@ -33,12 +37,15 @@ export class Excel {
   render() {
     this.element.append(this.getRoot());
 
+    this.subscriber.subscribeComponents(this.components);
+
     this.components.forEach((component) => {
       component.init();
     });
   }
 
   destroy() {
+    this.subscriber.unsubscribeFromStore();
     this.components.forEach((component) => {
       component.destroy();
     });

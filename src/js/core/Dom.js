@@ -1,4 +1,4 @@
-class DOM {
+class Dom {
   constructor(selector) {
     if (typeof selector === 'string') {
       this.elem = document.querySelector(selector);
@@ -27,10 +27,21 @@ class DOM {
     }
   }
 
+  getStyles(styles = []) {
+    return styles.reduce((res, style) => {
+      res[style] = this.elem.style[style];
+      return res;
+    }, {});
+  }
+
   text(text) {
-    if (typeof text === 'string') {
+    if (typeof text !== 'undefined') {
       this.elem.textContent = text;
       return this;
+    }
+
+    if (text === '') {
+      return '';
     }
 
     if (this.elem.tagName.toLowerCase() === 'input') {
@@ -64,7 +75,7 @@ class DOM {
   }
 
   append(node) {
-    if (node instanceof DOM) {
+    if (node instanceof Dom) {
       node = node.elem;
     }
 
@@ -113,10 +124,18 @@ class DOM {
     this.elem.focus();
     return this;
   }
+
+  attr(name, value) {
+    if (value) {
+      this.elem.setAttribute(name, value);
+      return this;
+    }
+    return this.elem.getAttribute(name);
+  }
 }
 
 export function J(selector) {
-  return new DOM(selector);
+  return new Dom(selector);
 }
 
 J.create = (tagName, classes = '') => {
