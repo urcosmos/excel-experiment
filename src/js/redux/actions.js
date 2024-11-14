@@ -35,4 +35,17 @@ function changeTitle(data) {
   };
 }
 
-export { tableResize, changeText, changeStyles, applyStyle, changeTitle };
+function updateDate() {
+  return {
+    type: types.UPDATE_DATE,
+  };
+}
+
+export {
+  tableResize,
+  changeText,
+  changeStyles,
+  applyStyle,
+  changeTitle,
+  updateDate,
+};

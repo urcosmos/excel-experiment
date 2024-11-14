@@ -16,11 +16,6 @@ export default class Store {
     };
   }
 
-  // unsubscribe(fn) {
-
-  //   return this;
-  // }
-
   dispatch(action) {
     this.state = this.rootReducer(this.state, action);
     this.listeners.forEach((listener) => {
