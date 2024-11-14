@@ -38,6 +38,14 @@ export function createToolbar(state) {
       },
     },
     {
+      icon: 'format_strikethrough',
+      active: state['textDecoration'] === 'line-through',
+      value: {
+        textDecoration:
+          state['textDecoration'] === 'line-through' ? 'none' : 'line-through',
+      },
+    },
+    {
       icon: 'format_align_left',
       active: state['textAlign'] === 'left',
       value: {
