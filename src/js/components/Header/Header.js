@@ -1,6 +1,7 @@
 import { defaultTitle } from '../../constants';
 import { J } from '../../core/Dom';
 import { ExcelComponent } from '../../core/ExcelComponent';
+import ActiveRoute from '../../core/routes/ActiveRoute';
 import { debounce } from '../../core/utils';
 import * as actions from '../../redux/actions';
 
@@ -10,13 +11,27 @@ export default class Header extends ExcelComponent {
   constructor(root, options) {
     super(root, {
       name: 'Header',
-      listeners: ['input'],
+      listeners: ['input', 'click'],
       ...options,
     });
   }
 
   prepare() {
     this.onInput = debounce(this.onInput, 300);
+  }
+
+  onClick(e) {
+    const target = J(e.target);
+
+    if (target.data.button === 'deleteTable') {
+      const decision = confirm('Вы хотите удалить эту таблицу?');
+      if (decision) {
+        localStorage.removeItem('excel:' + ActiveRoute.param);
+        ActiveRoute.navigate('');
+      }
+    } else if (target.data.button === 'logoutTable') {
+      ActiveRoute.navigate('');
+    }
   }
 
   onInput(e) {
@@ -33,11 +48,18 @@ export default class Header extends ExcelComponent {
             value="${title}"
           />
           <div class="header__buttons-group">
-            <div class="header__button button">
-              <span class="material-icons button__icon"> delete_outline </span>
+            <div class="header__button button" data-button="deleteTable">
+              <span
+                class="material-icons button__icon"
+                data-button="deleteTable"> delete_outline
+              </span>
             </div>
-            <div class="header__button button button--rect">
-              <span class="material-icons button__icon"> logout </span>
+            <div class="header__button button button--rect"
+              data-button="logoutTable">
+              <span
+                class="material-icons button__icon"
+                data-button="logoutTable"> logout
+              </span>
             </div>
           </div>
     `;

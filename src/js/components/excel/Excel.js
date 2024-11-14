@@ -1,10 +1,11 @@
 import { J } from '../../core/Dom';
 import Emitter from '../../core/Emitter';
 import { StoreSubscriber } from '../../core/StoreSubscriber';
+import { updateDate } from '../../redux/actions';
+import { preventDefault } from '../../core/utils';
 
 export class Excel {
-  constructor(selector, options) {
-    this.element = J(selector);
+  constructor(options) {
     this.components = options.components || [];
     this.store = options.store;
     this.subscriber = new StoreSubscriber(this.store);
@@ -34,11 +35,12 @@ export class Excel {
     return root;
   }
 
-  render() {
-    this.element.append(this.getRoot());
-
+  init() {
+    if (process.env.NODE_ENV === 'production') {
+      document.addEventListener('contextmenu', preventDefault);
+    }
+    this.store.dispatch(updateDate);
     this.subscriber.subscribeComponents(this.components);
-
     this.components.forEach((component) => {
       component.init();
     });
@@ -49,5 +51,6 @@ export class Excel {
     this.components.forEach((component) => {
       component.destroy();
     });
+    document.removeEventListener('contextmenu', preventDefault);
   }
 }
