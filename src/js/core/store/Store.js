@@ -8,7 +8,7 @@ export default class Store {
   subscribe(fn) {
     this.listeners.push(fn);
     return {
-      unsubscribe() {
+      unsubscribe: () => {
         this.listeners = this.listeners.filter((listener) => {
           listener !== fn;
         });

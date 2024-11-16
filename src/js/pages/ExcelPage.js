@@ -5,7 +5,7 @@ import Toolbar from '../components/Toolbar/Toolbar';
 import Formula from '../components/Formula/Formula';
 import Table from '../components/Table/Table';
 import { rootReducer } from '../redux/rootReducer';
-import Store from '../redux/Store';
+import Store from '../core/store/Store';
 import { storage, debounce } from '../core/utils';
 import { normalizeInitialState } from '../redux/initialState';
 
