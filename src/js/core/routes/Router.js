@@ -1,3 +1,4 @@
+import { Loader } from '../../components/Loader';
 import { J } from '../Dom';
 import ActiveRoute from './ActiveRoute';
 
@@ -9,6 +10,8 @@ export default class Router {
 
     this.placeholder = J(selector);
     this.routes = routes;
+
+    this.loader = new Loader();
 
     this.page = null;
 
@@ -22,12 +25,12 @@ export default class Router {
     this.changePageHandler();
   }
 
-  changePageHandler(e) {
+  async changePageHandler(e) {
     if (this.page) {
       this.page.destroy;
     }
 
-    this.placeholder.clear();
+    this.placeholder.clear().append(this.loader);
 
     const Page = ActiveRoute.path.includes('excel')
       ? this.routes.excel
@@ -35,7 +38,9 @@ export default class Router {
 
     this.page = new Page(ActiveRoute.param);
 
-    this.placeholder.append(this.page.getRoot());
+    const root = await this.page.getRoot();
+
+    this.placeholder.clear().append(root);
     this.page.afterRender();
   }
 

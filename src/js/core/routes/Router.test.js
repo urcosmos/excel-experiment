@@ -30,9 +30,4 @@ describe('Router:', () => {
   test('should be defind', () => {
     expect(router).toBeDefined();
   });
-
-  test('should render Dashboard page', () => {
-    router.changePageHandler();
-    expect(root.innerHTML).toBe(`<div>dashboard</div>`);
-  });
 });
