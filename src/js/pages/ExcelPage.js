@@ -6,25 +6,23 @@ import Formula from '../components/Formula/Formula';
 import Table from '../components/Table/Table';
 import { rootReducer } from '../redux/rootReducer';
 import Store from '../core/store/Store';
-import { storage, debounce } from '../core/utils';
 import { normalizeInitialState } from '../redux/initialState';
-
-function storageName(param) {
-  return `excel:` + param;
-}
+import StateProcessor from '../core/StateProcessor';
+import LocalStorageClient from '../core/clients/LoacalStorage';
 
 export default class ExcelPage extends Page {
-  getRoot() {
-    const params = this.params ? this.params : Date.now().toString();
+  constructor(param) {
+    super(param);
 
-    const state = storage(storageName(params));
+    this.storeSub = null;
+    this.processor = new StateProcessor(new LocalStorageClient(this.params));
+  }
+
+  async getRoot() {
+    const state = await this.processor.get();
     const store = new Store(rootReducer, normalizeInitialState(state));
 
-    const stateListener = debounce((state) => {
-      storage(storageName(params), state);
-    }, 1000);
-
-    store.subscribe(stateListener);
+    this.storeSub = store.subscribe(this.processor.listen);
 
     this.excel = new Excel({
       components: [Header, Toolbar, Formula, Table],
@@ -40,5 +38,6 @@ export default class ExcelPage extends Page {
 
   destroy() {
     this.excel.destroy();
+    this.storeSub.unsubscribe();
   }
 }

@@ -52,3 +52,7 @@ export function debounce(fn, wait) {
 export function preventDefault(e) {
   e.preventDefault();
 }
+
+export function storageName(param) {
+  return `excel:` + param;
+}
