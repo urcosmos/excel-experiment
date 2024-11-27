@@ -27,7 +27,7 @@ export default class Router {
 
   async changePageHandler(e) {
     if (this.page) {
-      this.page.destroy;
+      this.page.destroy();
     }
 
     this.placeholder.clear().append(this.loader);
