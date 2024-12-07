@@ -39,7 +39,7 @@ export class Excel {
     if (process.env.NODE_ENV === 'production') {
       document.addEventListener('contextmenu', preventDefault);
     }
-    this.store.dispatch(updateDate);
+    this.store.dispatch(updateDate());
     this.subscriber.subscribeComponents(this.components);
     this.components.forEach((component) => {
       component.init();
